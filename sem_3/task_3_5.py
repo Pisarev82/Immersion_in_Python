@@ -6,7 +6,7 @@
 listik = [2, 3, 5, 6, 7]
 result = []
 for enum, each in enumerate(listik, 1):
-    if each%2 != 0:
+    if each % 2 != 0:
         result.append(enum)
 
 print(result)

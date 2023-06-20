@@ -15,6 +15,6 @@ text = user_input.replace(".", "").replace("#", "").replace(",", "").replace("âœ
     .strip(" ")
 list_from_text = text.split(" ")
 list_from_text.sort()
-max_word_len = max(len(word) for word in list_from_text)
+max_word_len = len(max(list_from_text, key=len))
 for enum, each in enumerate(list_from_text, 1):
     print(f'{enum}{each: >{max_word_len + 1}}')

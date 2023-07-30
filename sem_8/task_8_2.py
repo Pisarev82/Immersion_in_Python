@@ -16,7 +16,7 @@ import os.path
 
 def func(json_file):
     if os.path.isfile(json_file):
-        with open("task_8_2.json", "r") as file:
+        with open("task_8_2.json", "r", encoding="utf8") as file:
             dict_ = json.load(file)
     else:
         dict_ = {str(i):{} for i in range(1, 8)}
@@ -28,8 +28,8 @@ def func(json_file):
         if id not in dict_[level]:
             dict_.setdefault(level, {id:name})[id] = name
     print(dict_)
-    with open("task_8_2.json", "w") as file:
-        json.dump(dict_, file, ensure_ascii=False)
+    with open("task_8_2.json", "w", encoding="utf8") as file:
+        json.dump(dict_, file, ensure_ascii=False, indent=1)
 
 
 if __name__ == '__main__':

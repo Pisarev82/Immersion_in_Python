@@ -22,19 +22,24 @@ class Project:
 
     data = None
 
-    def __init__(self, users_list: list, admin=None):
+    def __init__(self, users_list: list, admin=None, file_path= "data.json"):
+        self.file_path = file_path
         self.users_list = users_list
         self.admin = admin
 
     @classmethod
     def load_from_json(cls, file_path):
-        cls.__file_path = file_path
-        with open(file_path, "r", encoding="utf8") as file:
-            cls.data = json.load(file)
+        cls.file_path = file_path
         users_list = []
-        for level, users in cls.data.items():
-            for id_, name in users.items():
-                users_list.append(User(id_, name, level))
+        try:
+            with open(file_path, "r", encoding="utf8") as file:
+                cls.data = json.load(file)
+            for level, users in cls.data.items():
+                for id_, name in users.items():
+                    users_list.append(User(id_, name, level))
+        except FileNotFoundError:
+            pass
+
         return Project(users_list)
 
     def login_user(self):
@@ -47,17 +52,22 @@ class Project:
             if each == user:
                 self.admin = each
                 print("Вы вошли")
+                print(self.admin)
 
     def add_user(self):
         user_input = input("Для добавления нового пользователя введите имя, идентификатор, уровень доступа: ")
         name, id_, level = user_input.split(" ")
+        self.users_list.append(User(id_, name, level))
         if level < self.admin.level:
             raise LevelExeption(self.admin.level)
-        if id_ not in self.data[level]:
+        if id_ not in [user.user_id for user in self.users_list]:
             self.data.setdefault(level, {id_: name})[id_] = name
+        try:
+            with open(self.file_path, "w", encoding="utf8") as file:
+                json.dump(self.data, file, ensure_ascii=False, indent=1)
+        except BaseException():
+            pass
 
-        with open(self.__file_path, "w", encoding="utf8") as file:
-            json.dump(self.data, file, ensure_ascii=False, indent=1)
 
     def __str__(self):
         return f"{[user for user in self.users_list]}"
@@ -68,6 +78,7 @@ class Project:
 
 if __name__ == '__main__':
     project = Project.load_from_json("D:\\dev\\study\\Immersion _in_Python\\sem_8\\task_8_2.json")
+    # project = Project.load_from_json("data.json")
     print(project)
     project.login_user()
     print("+++ ", project.admin, project.admin)

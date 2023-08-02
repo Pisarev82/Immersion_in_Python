@@ -6,10 +6,14 @@ from sem_6 import my_func, my_func_pro, mystery_dict, show_mystery_guess_dict, v
     term_validate_date, find_4_successful_formations
 
 if __name__ == '__main__':
+    print("Запуск main")
+    import re
+    str = '3 lin 200.99'
+    pat
     # my_func(1, 1000, 10)
     # my_func_pro(1, 10, 2)
     # mystery_dict()
     # print(*show_mystery_guess_dict(), sep="\n")
     # print(validate_date("29.02.2000"))
-    print(term_validate_date())
-    find_4_successful_formations()
+    # print(term_validate_date())
+    # find_4_successful_formations()
